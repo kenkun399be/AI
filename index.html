@@ -41,14 +41,19 @@ body {
 
   searchButton.addEventListener('click', () => {
     const word = wordInput.value;
+    const apiKey = 'YOUR_API_KEY'; // ここにGoogle Custom Search Engine APIキーを記入
+    const searchEngineId = 'YOUR_SEARCH_ENGINE_ID'; // ここにGoogle Custom Search Engine IDを記入
 
-    // Bing検索APIを使って検索
-    fetch(`https://www.bing.com/search?q=${word}`)
-      .then(response => response.text())
-      .then(html => {
-        // HTMLから意味を推測する処理（例として最初の見出しを取得）
-        const heading = html.match(/<h1>(.*?)<\/h1>/)[1];
-        result.textContent = `推測される意味: ${heading}`;
+    fetch(`https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${searchEngineId}&q=${word}`)
+      .then(response => response.json())
+      .then(data => {
+        // 検索結果から意味を推測する処理
+        if (data.items && data.items.length > 0) {
+          const firstResult = data.items[0];
+          result.textContent = `推測される意味: ${firstResult.snippet}`;
+        } else {
+          result.textContent = '検索結果が見つかりませんでした。';
+        }
       })
       .catch(error => {
         console.error('検索エラー:', error);
