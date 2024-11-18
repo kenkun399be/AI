@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>言葉の意味推測サイト</title>
+<style>
+body {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+#word-input {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+}
+
+#search-button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 1.2em;
+}
+</style>
+</head>
+<body>
+  <h1>言葉を入力してください</h1>
+  <input type="text" id="word-input" placeholder="言葉を入力">
+  <button id="search-button">検索</button>
+  <div id="result"></div>
+
+  <script>
+  const wordInput = document.getElementById('word-input');
+  const searchButton = document.getElementById('search-button');
+  const result = document.getElementById('result');
+
+  searchButton.addEventListener('click', () => {
+    const word = wordInput.value;
+
+    // Bing検索APIを使って検索
+    fetch(`https://www.bing.com/search?q=${word}`)
+      .then(response => response.text())
+      .then(html => {
+        // HTMLから意味を推測する処理（例として最初の見出しを取得）
+        const heading = html.match(/<h1>(.*?)<\/h1>/)[1];
+        result.textContent = `推測される意味: ${heading}`;
+      })
+      .catch(error => {
+        console.error('検索エラー:', error);
+        result.textContent = '検索に失敗しました。';
+      });
+  });
+  </script>
+</body>
+</html>
