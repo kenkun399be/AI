@@ -41,8 +41,8 @@ body {
 
   searchButton.addEventListener('click', () => {
     const word = wordInput.value;
-    const apiKey = 'YOUR_API_KEY'; // ここにGoogle Custom Search Engine APIキーを記入
-    const searchEngineId = 'YOUR_SEARCH_ENGINE_ID'; // ここにGoogle Custom Search Engine IDを記入
+    const apiKey = 'YOUR_API_KEY'; // ここにGoogle Custom Search Engine APIキーを貼り付け
+    const searchEngineId = 'YOUR_SEARCH_ENGINE_ID'; // ここにGoogle Custom Search Engine IDを貼り付け
 
     fetch(`https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${searchEngineId}&q=${word}`)
       .then(response => response.json())
